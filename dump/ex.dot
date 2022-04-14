@@ -1,0 +1,38 @@
+digraph g {
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	graph [
+		rankdir = "LR"
+	];
+	node [
+		fontsize = "16"
+		shape = "ellipse"
+	];
+	edge [
+	];
+	"node0" [
+		label = "<f0> 0 | <f1> 1 | <f2> 2 | <f3> 3"
+		shape = "record"
+	];
+	"node1" [
+		label = "<f0> q | w | e"
+		shape = "record"
+	];
+	"node2" [
+		label = "<f0> q | w | e"
+		shape = "record"
+	];
+	"node2" [
+		label = "<f0> q | w | e"
+		shape = "record"
+	];
+	"node4" [
+		label = "<f0> q | w | e"
+		shape = "record"
+	];
+	"node0":f0 -> "node1":f0
+	"node0":f2 -> "node2":f0	
+	"node0":f1 -> "node3":f0
+	"node0":f3 -> "node4":f0
+}
