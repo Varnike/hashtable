@@ -11,7 +11,7 @@
 #include <inttypes.h>
 #include "error.h"
 
-#define LIST_DEBUG
+//#define LIST_DEBUG
 
 #define $ printf("\t\t\t---ON LINE %d IN FUNCTION %s---\n", __LINE__, __func__);
 

@@ -14,7 +14,6 @@ int HashTableCtor(hashtable *ht, int size,
 	assert(ht->table);
 	ht->size  = size;
 
-	// TODO ? when to init
 	for (int it = 0; it < size; it++) {
 		ListCtor(&ht->table[it], 1, 
 				HST_DATA{

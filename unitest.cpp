@@ -1,12 +1,13 @@
 #include "unitest.h"
 
 #define TEST_MODE 1
+
 int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 {
 	hashtable ht = {};
 	textBuff btext = {};
 
-	HashTableCtor(&ht, 20, djb_hash);
+	HashTableCtor(&ht, 20, hash);
 
 	read_from_file(&btext, "breaking_bad.txt");
 	printf("linecnt = %d\n", btext.linecnt);
@@ -38,15 +39,8 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 
 	}
 
-	char str[100] = {0};
-	int len = 0;
-
-	while (scanf("%s", &str) && (len = strlen(str)) != 1) {
-		ntest = HashTableFind(&ht, str, len);
-		printf("~[%s] is %d\n", str, ntest->val.data);
-	}
-
-	cnt_collisions(&ht, hash_name);
+	//get_words_cnt(&ht);
+	//cnt_collisions(&ht, hash_name);
 
 	HashTableDtor(&ht);
 	onegin_dtor(&btext);
@@ -54,13 +48,49 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 	return ERRNUM;
 }
 
-int cnt_collisions(hashtable *ht, char *filename)
+void cnt_collisions(hashtable *ht, char *filename)
 {
 	FILE *file = fopen(filename,"w");
 
 	for (int it = 0; it != ht->size; it++)
-		fprintf(file, "%d\t%d\n", it + 1,
-			       	ht->table[it].size);
+		fprintf(file, "%d\t%d\n", it,
+			       	ht->table[it].size - 1);
 
 	fclose(file);
+}
+
+void get_words_cnt(hashtable *ht)
+{ 
+	char str[100] = {0};
+	int len = 0;
+
+	_NODE *ntest = NULL;
+
+	while (scanf("%s%n", &str, &len) && *str != '!') {
+		if (len == 1) 			// TODO ?
+			break;
+		ntest = HashTableFind(ht, str, len - 1);
+		printf("~[%s] is %d\n", str, ntest->val.data);
+	}
+}
+
+uint32_t achr_hash(const char *str, size_t len)
+{
+	return (uint32_t)*str;
+}
+
+
+uint32_t len_hash(const char *str, size_t len)
+{
+	return (uint32_t)len;
+}
+
+uint32_t asum_hash(const char *str, size_t len)
+{
+	uint32_t sum = 0;
+
+	for (int i = 0; i < len; sum += str[i++])
+		;
+
+	return sum;
 }
