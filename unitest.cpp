@@ -21,12 +21,12 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 		RUN_PRINTF("%d\n", i);
 #if TEST_MODE == 1
 		ntest = HashTableFind(&ht,
-			       	btext.str[i].strptr, 
-				btext.str[i].len);
+			       	&btext.str.word[i], 
+				0);
 		if (ntest->val.data == DUMMY_NODE) {
 			HashTableInsert((LIST *)(ntest->val.key),
 			HST_DATA {
-				.key  = btext.str[i].strptr,
+				.key  = &btext.str.word[i],
 				.data = 0
 			});
 		} else {
@@ -72,7 +72,7 @@ void get_words_cnt(hashtable *ht)
 	while (scanf("%s%n", &str, &len) && *str != '!') {
 		if (len == 1) 			// TODO ?
 			break;
-		ntest = HashTableFind(ht, str, len - 1);
+		//ntest = HashTableFind(ht, str, len - 1);
 		printf("~[%s] is %d\n", str, ntest->val.data);
 	}
 }

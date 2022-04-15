@@ -228,7 +228,7 @@ _NODE *ListFindKey(LIST *list, __m256i *key, int len)
 
 		__m256i cmp = _mm256_cmpeq_epi8(*list->buff[it].val.key,
 						*key);
-		if (!_mm256_movemask_epi8(cmp))
+		if (!_mm256_movemask_epi8(cmp) == 0)
 			//strncmp(list->buff[it].val.key, key, len) == 0)
 			return list->buff + it;
 

@@ -52,19 +52,26 @@ int read_from_file(textBuff *btext, const char* name_in)
 		perror(errmsg(ERRNUM));
 		return -1;		
         }                                                                                            
-                                                                                $                     
-        btext->str = (strsize *) calloc(sizeof(strsize), btext->linecnt);
-	if (btext->str == NULL) {
+                                                                                $
+	btext->str.word = 
+		(__m256i*) calloc(sizeof(__m256i), btext->linecnt);
+	printf("sizeof: %zu, cnt: %d", sizeof(__m256i),
+			btext->linecnt);
+
+	if (btext->str.word == NULL) {
 		ERRNUM = CALLOC_ERR;
 		perror(errmsg(ERRNUM));
 		return -1;		
-        }                                                                                            
-                                                                                $                     
-        if (read_in_str(btext) != btext->linecnt) {                                  
-                perror(errmsg(ERRNUM));
+        }             
+
+	$
+	
+       	if (read_in_str(btext) != btext->linecnt) {
+		$
+		perror(errmsg(ERRNUM));
 		return -1;
         }	
-	
+	$
 	fclose(btext->file_in);
 	return 0;
 }
@@ -74,7 +81,7 @@ int onegin_dtor(textBuff *btext) {
 		return -1;
 	
 	free(btext->buff);
-	free(btext->str);
+	free(btext->str.word);
 
 	return 0;
 }

@@ -1,7 +1,7 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#define USE_PRINTF_ON_RUN	0
+#define USE_PRINTF_ON_RUN	1
 
 
 

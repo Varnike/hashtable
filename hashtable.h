@@ -31,7 +31,7 @@ int HashTableInsert(LIST *list, HST_DATA node);
  * NOTE: never use list function push front!
  *
  */
-_NODE* HashTableFind(hashtable *ht, char *key, size_t keylen);
+_NODE* HashTableFind(hashtable *ht, __m256i *key, size_t keylen);
 int HashTableDump(hashtable *ht);
 int _HashTableCheck(hashtable *ht);
 

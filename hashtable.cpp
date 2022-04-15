@@ -1,6 +1,7 @@
 #include "hashtable.h"
 
 uint32_t djb_hash(const char* data, size_t length);
+static uint64_t crc_hash(__m256i *src);
 
 int HashTableCtor(hashtable *ht, int size,
 	       	uint32_t (*hash)(const char *str, size_t len))
@@ -15,6 +16,7 @@ int HashTableCtor(hashtable *ht, int size,
 	ht->size  = size;
 
 	for (int it = 0; it < size; it++) {
+		
 		ListCtor(&ht->table[it], 1, 
 			HST_DATA{ // TODO bad
 				.key = (__m256i *) &ht->table[it],
@@ -45,7 +47,7 @@ int HashTableInsert(hashtable *ht, HST_DATA node, size_t keylen)
 {
 	assert(ht && ht->table && node.key);
 
-	int pos = ht->hash(node.key, keylen) % ht->size;
+	int pos = crc_hash(node.key) % ht->size;
 	ListInsertBack(ht->table + pos, node);
 
 	
@@ -62,9 +64,9 @@ int HashTableInsert(LIST *list, HST_DATA node)
 	return 0;
 }
 
-_NODE *HashTableFind(hashtable *ht, char *key, size_t keylen)
+_NODE *HashTableFind(hashtable *ht, __m256i *key, size_t keylen)
 {
-	int pos = ht->hash(key, keylen) % ht->size;
+	int pos = crc_hash(key) % ht->size;
 
 	RUN_PRINTF("POSITION = %d\n", pos);
 	
@@ -181,4 +183,14 @@ uint32_t djb_hash(const char* data, size_t length)
 	}
 
 	return hash;
+}
+
+static uint64_t crc_hash(__m256i *src)
+{
+	uint64_t answ = 0;
+
+	for (int i = 0; i != 8; i++)
+		answ = _mm_crc32_u64(answ, ((uint64_t *)src)[i]);
+
+	return answ;
 }

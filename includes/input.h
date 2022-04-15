@@ -34,10 +34,15 @@ struct strsize {
         int len;
 };
 
+union str_align {
+	__m256i *word;
+	unsigned long long align;
+};
+
 struct textBuff {
+	str_align str;
         int linecnt;
-        size_t buffsize;
-        strsize *str;
+        size_t buffsize; 
         char *buff;
         FILE *file_out;
         FILE *file_in;

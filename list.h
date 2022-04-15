@@ -88,7 +88,7 @@ int ListFindNodeSlowSlow(LIST *lst, int pos);
 int ListDtor(LIST *list);
 int ListLineariseSlowSlow(LIST *list);
 _NODE *ListGetValue(LIST *list, int pos, int mode = 0);
-_NODE *ListFindKey(LIST *list, __m256i *key, int len = -1);
+_NODE *ListFindKey(LIST *list, __m256i *key, int len);
 
 void _ListDump(LIST *list,  const char *srcfunc,
 	       	const char *srcfile, const int line);

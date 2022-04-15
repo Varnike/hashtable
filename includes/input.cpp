@@ -17,8 +17,11 @@ int readNcnt(textBuff *btext)
 	return btext->linecnt;
 }
 
+#define $ printf("\t\t\t---ON LINE %d IN FUNCTION %s---\n", __LINE__, __func__);
+
 int read_in_str(textBuff *btext) {
-	if (btext->str == NULL) {
+	printf("<\t%p\t>\n", btext->str.word);
+	if (btext->str.word == NULL) {
 		ERRNUM = STRUCT_PTR_ERR;
 		return EOF;
 	}
@@ -27,6 +30,7 @@ int read_in_str(textBuff *btext) {
 		ERRNUM = BUFF_PTR_ERR;
 		return EOF;
 	}
+	$
 
 	int curr_ptr  = 0;
 	int curr_line = 0;
@@ -34,8 +38,8 @@ int read_in_str(textBuff *btext) {
 	int mm_id     = 0;
 
 #define STR			btext->str
-	STR[0].word = _mm256_setzero_si256();
-
+	btext->str.word[0] = _mm256_setzero_si256();
+$
 	for (int i = 0; curr_line < btext->linecnt
 		       	&& i != btext->buffsize; i++) {
 		if (isTrash(btext->buff[i])) {
@@ -43,47 +47,37 @@ int read_in_str(textBuff *btext) {
 				curr_ptr = i + 1;
 				continue;
 			}
-
+			$
 			printf("\n");
-
-			btext->str[curr_line].realptr = 
-				(char*)(btext->buff + curr_ptr);
-			
+	
 			while(isTrash(btext->buff[curr_ptr]))
 				curr_ptr++;
 
-			btext->str[curr_line].strptr = 
-				(char*)(btext->buff + curr_ptr);
-			btext->str[curr_line++].len = i - curr_ptr; 
-			
+			curr_line++;
 			curr_ptr = i + 1;
 
-			STR[curr_line].word = _mm256_setzero_si256();
+			STR.word[curr_line] = _mm256_setzero_si256();
 			mm_id = 0;
 			continue;
 		}
-		((char *) &STR[curr_line].word)[mm_id] = 
+		((char *) &STR.word[curr_line])[mm_id] = 
 			btext->buff[i];
 
 #ifdef ONEGIN_DEBUG
 		printf("%c\t%d\n",(
-			(char *) &STR[curr_line].word)[mm_id++], mm_id);
+			(char *) &STR.word[curr_line])[mm_id++], mm_id);
 #endif
 	}
 #ifdef ONEGIN_DEBUG
 	for (int i = 0; i != 32; i++)
-		printf("%d <%c>\n", i, ((char *) &STR[1].word)[i]);
+		printf("%d <%c>\n", i, ((char *) &STR.word[1])[i]);
 
 	printf("\n");
-
-	printf("[ %.*s ] --- [ %.*s ]", STR[1].len, 
-			((char*)&STR[1].word),
-			STR[1].len, STR[1].strptr);
 #endif
-#undef STR
-
 	return btext->linecnt;
 }
+#undef STR
+#undef $
 
 int isTrash(char c)
 {
