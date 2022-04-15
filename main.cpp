@@ -6,7 +6,10 @@
 #define TEST_MODE 1
 int main()
 {
-	unitest("djb_hahs", djb_hash);
+	unitest("tests/HASH_djb.dat", djb_hash);
+	//unitest("tests/HASH_ascii.dat", achr_hash);
+	//unitest("tests/HASH_len.dat", len_hash);
+	//unitest("tests/HASH_ascii_sum.dat", asum_hash);
 
 	/*
 	hashtable ht = {};

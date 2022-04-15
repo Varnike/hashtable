@@ -5,9 +5,15 @@
 #include "hashtable.h"
 #include "includes/onegin.h"
 
-const int HT_TEST_SIZE = 10;
+const int HT_TEST_SIZE = 20;
 
-int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len));
-int cnt_collisions(hashtable *ht, char *filename);
+uint32_t achr_hash(const char *str, size_t len);
+uint32_t len_hash(const char *str, size_t len);
+uint32_t asum_hash(const char *str, size_t len);
+
+int unitest(char *hash_name, 
+		uint32_t (*hash)(const char *str, size_t len));
+void cnt_collisions(hashtable *ht, char *filename);
+void get_words_cnt(hashtable *ht);
 
 #endif
