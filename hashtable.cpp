@@ -66,17 +66,18 @@ _NODE *HashTableFind(hashtable *ht, char *key, size_t keylen)
 {
 	int pos = ht->hash(key, keylen) % ht->size;
 
-	printf("POSITION = %d\n", pos);
+	RUN_PRINTF("POSITION = %d\n", pos);
 	
 	_NODE *node_found = ListFindKey(ht->table + pos, key, keylen);
-
+	
 	if (node_found->val.data != DUMMY_NODE) {
-		printf("[node found]\tkey: \"%.*s\", data: \"%d\"\n", 
+		RUN_PRINTF("[node found]\tkey: \"%.*s\","
+				" data: \"%d\"\n", 
 				keylen,
 				node_found->val.key, 
 				node_found->val.data);
 	} else {
-		printf("Node not found\n");
+		RUN_PRINTF("Node not found\n");
 	}
 
 	return node_found;

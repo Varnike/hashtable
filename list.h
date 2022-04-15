@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include "error.h"
+#include "config.h"
 
 //#define LIST_DEBUG
 
