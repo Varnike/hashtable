@@ -31,25 +31,56 @@ int read_in_str(textBuff *btext) {
 	int curr_ptr  = 0;
 	int curr_line = 0;
 	int prev_cnt  = 0;
+	int mm_id     = 0;
 
-	for (int i = 0; curr_line < btext->linecnt && i != btext->buffsize; i++) {
+#define STR			btext->str
+	STR[0].word = _mm256_setzero_si256();
+
+	for (int i = 0; curr_line < btext->linecnt
+		       	&& i != btext->buffsize; i++) {
 		if (isTrash(btext->buff[i])) {
 			if (isTrash(btext->buff[curr_ptr])) {
 				curr_ptr = i + 1;
 				continue;
 			}
 
-			btext->str[curr_line].realptr = (char*)(btext->buff + curr_ptr);
+			printf("\n");
+
+			btext->str[curr_line].realptr = 
+				(char*)(btext->buff + curr_ptr);
 			
 			while(isTrash(btext->buff[curr_ptr]))
 				curr_ptr++;
 
-			btext->str[curr_line].strptr = (char*)(btext->buff + curr_ptr);
+			btext->str[curr_line].strptr = 
+				(char*)(btext->buff + curr_ptr);
 			btext->str[curr_line++].len = i - curr_ptr; 
 			
 			curr_ptr = i + 1;
+
+			STR[curr_line].word = _mm256_setzero_si256();
+			mm_id = 0;
+			continue;
 		}
+		((char *) &STR[curr_line].word)[mm_id] = 
+			btext->buff[i];
+
+#ifdef ONEGIN_DEBUG
+		printf("%c\t%d\n",(
+			(char *) &STR[curr_line].word)[mm_id++], mm_id);
+#endif
 	}
+#ifdef ONEGIN_DEBUG
+	for (int i = 0; i != 32; i++)
+		printf("%d <%c>\n", i, ((char *) &STR[1].word)[i]);
+
+	printf("\n");
+
+	printf("[ %.*s ] --- [ %.*s ]", STR[1].len, 
+			((char*)&STR[1].word),
+			STR[1].len, STR[1].strptr);
+#endif
+#undef STR
 
 	return btext->linecnt;
 }

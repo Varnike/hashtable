@@ -9,6 +9,9 @@
 #include <typeinfo>
 #include <stdint.h>
 #include <inttypes.h>
+#include <nmmintrin.h>
+#include <emmintrin.h>
+#include <immintrin.h>
 #include "error.h"
 #include "config.h"
 
@@ -40,7 +43,7 @@
 //typedef int listv_t;
 
 typedef struct HST_DATA {
-	char *key = NULL;
+	__m256i *key;
 	int data;	
 } listv_t;
 
@@ -85,7 +88,7 @@ int ListFindNodeSlowSlow(LIST *lst, int pos);
 int ListDtor(LIST *list);
 int ListLineariseSlowSlow(LIST *list);
 _NODE *ListGetValue(LIST *list, int pos, int mode = 0);
-_NODE *ListFindKey(LIST *list, char *key, int len = -1);
+_NODE *ListFindKey(LIST *list, __m256i *key, int len = -1);
 
 void _ListDump(LIST *list,  const char *srcfunc,
 	       	const char *srcfile, const int line);

@@ -9,7 +9,9 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 
 	HashTableCtor(&ht, 20, hash);
 
-	read_from_file(&btext, "breaking_bad.txt");
+	//read_from_file(&btext, "breaking_bad.txt");
+	read_from_file(&btext, "text_in");
+
 	printf("linecnt = %d\n", btext.linecnt);
  
 	_NODE *ntest = NULL;
@@ -38,13 +40,14 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 #endif
 
 	}
+	printf("END!\n");
 
 	//get_words_cnt(&ht);
-	cnt_collisions(&ht, hash_name);
-
+	//cnt_collisions(&ht, hash_name);
+	
 	HashTableDtor(&ht);
 	onegin_dtor(&btext);
-
+	
 	return ERRNUM;
 }
 

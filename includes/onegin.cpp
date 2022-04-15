@@ -72,9 +72,11 @@ int read_from_file(textBuff *btext, const char* name_in)
 int onegin_dtor(textBuff *btext) {
 	if (!btext)
 		return -1;
-
+	
 	free(btext->buff);
 	free(btext->str);
+
+	return 0;
 }
 
 #undef $

@@ -211,7 +211,7 @@ int ListFindNodeSlowSlow(LIST *list, int logical_pos)
 	return -1;
 }
 
-_NODE *ListFindKey(LIST *list, char *key, int len)
+_NODE *ListFindKey(LIST *list, __m256i *key, int len)
 {
 	LIST_CHECK;
 	if (!key) {
@@ -221,8 +221,15 @@ _NODE *ListFindKey(LIST *list, char *key, int len)
 
 	int it = list->buff[list->HEAD].next;	// skip dummy node
 	do {
-		if (list->buff[it].val.key && 
-			strncmp(list->buff[it].val.key, key, len) == 0)
+		if (!list->buff[it].val.key) {
+			printf("NULL DATA!");
+			break;
+		}
+
+		__m256i cmp = _mm256_cmpeq_epi8(*list->buff[it].val.key,
+						*key);
+		if (!_mm256_movemask_epi8(cmp))
+			//strncmp(list->buff[it].val.key, key, len) == 0)
 			return list->buff + it;
 
 		it = list->buff[it].next;
@@ -230,7 +237,7 @@ _NODE *ListFindKey(LIST *list, char *key, int len)
 
 	return list->buff + 1; 			// dummy node
 }
-
+#if 0
 void _ListDump
 (LIST *list, const char *srcfunc, const char *srcfile, const int line)
 {
@@ -377,7 +384,7 @@ void DotDump(LIST *list)
 
 	system("dot -Tsvg dump/dump.dot -o dump/dump.svg");
 }
-
+#endif
 static void init_list(LIST *list)
 {
 	assert(list);

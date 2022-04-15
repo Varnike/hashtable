@@ -21,8 +21,14 @@
 #include <ctype.h>
 #include <unistd.h> 
 #include <stdio.h>
+#include <nmmintrin.h>
+#include <emmintrin.h>
+#include <immintrin.h>
+
+#define ONEGIN_DEBUG
 
 struct strsize {
+	__m256i word;
         char *strptr;
         char *realptr;
         int len;

@@ -16,10 +16,10 @@ int HashTableCtor(hashtable *ht, int size,
 
 	for (int it = 0; it < size; it++) {
 		ListCtor(&ht->table[it], 1, 
-				HST_DATA{
-					.key = (char *) &ht->table[it],
-					.data = DUMMY_NODE
-				}, LIST_DEF_SIZE);
+			HST_DATA{ // TODO bad
+				.key = (__m256i *) &ht->table[it],
+				.data = DUMMY_NODE
+			}, LIST_DEF_SIZE);
 	}
 
 	return ERRNUM;
