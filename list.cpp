@@ -211,29 +211,26 @@ int ListFindNodeSlowSlow(LIST *list, int logical_pos)
 	return -1;
 }
 
-_NODE *ListFindKey(LIST *list, __m256i *key, int len)
+_NODE *ListFindKey(LIST *list, __m256i key, int len)
 {
 	LIST_CHECK;
-	if (!key) {
-		ERRNUM = LIST_NULLPTR_ERR;
-		return NULL;
-	}
+	
 
 	int it = list->buff[list->HEAD].next;	// skip dummy node
-	do {
+	while(it != 0) {
 		if (!list->buff[it].val.key) {
 			printf("NULL DATA!");
 			break;
 		}
 
 		__m256i cmp = _mm256_cmpeq_epi8(*list->buff[it].val.key,
-						*key);
-		if (!_mm256_movemask_epi8(cmp) == 0)
+						key);
+		if (_mm256_movemask_epi8(cmp) == 0xFFFFFFFF)
 			//strncmp(list->buff[it].val.key, key, len) == 0)
 			return list->buff + it;
 
 		it = list->buff[it].next;
-	} while(it != 0);
+	} ;
 
 	return list->buff + 1; 			// dummy node
 }

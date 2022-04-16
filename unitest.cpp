@@ -9,8 +9,8 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 
 	HashTableCtor(&ht, 20, hash);
 
-	//read_from_file(&btext, "breaking_bad.txt");
-	read_from_file(&btext, "text_in");
+	read_from_file(&btext, "breaking_bad.txt");
+	//read_from_file(&btext, "text_in");
 
 	printf("linecnt = %d\n", btext.linecnt);
  
@@ -21,12 +21,12 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 		RUN_PRINTF("%d\n", i);
 #if TEST_MODE == 1
 		ntest = HashTableFind(&ht,
-			       	&btext.str.word[i], 
+			       	&btext.str[i], 
 				0);
 		if (ntest->val.data == DUMMY_NODE) {
 			HashTableInsert((LIST *)(ntest->val.key),
 			HST_DATA {
-				.key  = &btext.str.word[i],
+				.key  = &btext.str[i],
 				.data = 0
 			});
 		} else {
@@ -68,12 +68,15 @@ void get_words_cnt(hashtable *ht)
 	int len = 0;
 
 	_NODE *ntest = NULL;
-
-	while (scanf("%s%n", &str, &len) && *str != '!') {
+	
+	__m256i find = _mm256_setzero_si256();
+	while (scanf("%s%n", (char*)&find, &len) && 
+			*(char*)&find != '!') {
 		if (len == 1) 			// TODO ?
 			break;
-		//ntest = HashTableFind(ht, str, len - 1);
-		printf("~[%s] is %d\n", str, ntest->val.data);
+		ntest = HashTableFind(ht, &find, len - 1);
+		printf("~[%s] is %d\n", (char *) &find, 
+				ntest->val.data);
 	}
 }
 

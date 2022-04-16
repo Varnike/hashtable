@@ -70,16 +70,16 @@ _NODE *HashTableFind(hashtable *ht, __m256i *key, size_t keylen)
 
 	RUN_PRINTF("POSITION = %d\n", pos);
 	
-	_NODE *node_found = ListFindKey(ht->table + pos, key, keylen);
+	_NODE *node_found = ListFindKey(ht->table + pos, *key, keylen);
 	
 	if (node_found->val.data != DUMMY_NODE) {
-		RUN_PRINTF("[node found]\tkey: \"%.*s\","
+		RUN_PRINTF("[node found]\tkey: \"%s\","
 				" data: \"%d\"\n", 
-				keylen,
-				node_found->val.key, 
+				(char*) node_found->val.key, 
 				node_found->val.data);
 	} else {
-		RUN_PRINTF("Node not found\n");
+		RUN_PRINTF("Node not found\tkey: \"%s\"\n",
+				(char*) key);
 	}
 
 	return node_found;
@@ -189,7 +189,7 @@ static uint64_t crc_hash(__m256i *src)
 {
 	uint64_t answ = 0;
 
-	for (int i = 0; i != 8; i++)
+	for (int i = 0; i != 4; i++)
 		answ = _mm_crc32_u64(answ, ((uint64_t *)src)[i]);
 
 	return answ;

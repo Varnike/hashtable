@@ -25,7 +25,7 @@
 #include <emmintrin.h>
 #include <immintrin.h>
 
-#define ONEGIN_DEBUG
+//#define ONEGIN_DEBUG
 
 struct strsize {
 	__m256i word;
@@ -34,13 +34,13 @@ struct strsize {
         int len;
 };
 
-union str_align {
-	__m256i *word;
-	unsigned long long align;
+union str {
+	__m256i *str;
+	unsigned long align;
 };
 
 struct textBuff {
-	str_align str;
+	__m256i *str;
         int linecnt;
         size_t buffsize; 
         char *buff;

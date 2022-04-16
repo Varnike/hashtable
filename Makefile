@@ -7,10 +7,10 @@ DEPS = hashtable.h list.h error.h unitest.h config.h includes/file.h includes/in
 OBJ = main.o hashtable.o list.o error.o unitest.o  includes/file.o includes/input.o includes/onegin.o 
 
 %.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS) -O0
+	$(CC) -c -o $@ $< $(CFLAGS) -O3
 
 list: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) -O0
+	$(CC) -o $@ $^ $(CFLAGS) -O3
 
 clean :
 	rm $(OBJ)

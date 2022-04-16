@@ -39,39 +39,39 @@ int read_from_file(textBuff *btext, const char* name_in)
         if (btext->buffsize == EOF)
 		return -1;                                                                                                                                                          
         btext->buff = (char  *) calloc(sizeof(char),  btext->buffsize + 1);
-	$
+	
         if (btext->buff == NULL) {
 		ERRNUM = CALLOC_ERR;                                                                 
                 perror(errmsg(ERRNUM));
 		return -1;		
         }                                                                                            
-                                                                                $                     
+                                                                                               
         btext->linecnt =  readNcnt(btext);
 	
 	if (btext->linecnt == EOF) {
 		perror(errmsg(ERRNUM));
 		return -1;		
         }                                                                                            
-                                                                                $
-	btext->str.word = 
-		(__m256i*) calloc(sizeof(__m256i), btext->linecnt);
+                                                                                
+	btext->str = (__m256i*) aligned_alloc (64, 
+			sizeof(__m256i) *  (btext->linecnt + 1));
 	printf("sizeof: %zu, cnt: %d", sizeof(__m256i),
 			btext->linecnt);
 
-	if (btext->str.word == NULL) {
+	if (btext->str == NULL) {
 		ERRNUM = CALLOC_ERR;
 		perror(errmsg(ERRNUM));
 		return -1;		
         }             
 
-	$
+	
 	
        	if (read_in_str(btext) != btext->linecnt) {
 		$
 		perror(errmsg(ERRNUM));
 		return -1;
         }	
-	$
+	
 	fclose(btext->file_in);
 	return 0;
 }
@@ -81,7 +81,7 @@ int onegin_dtor(textBuff *btext) {
 		return -1;
 	
 	free(btext->buff);
-	free(btext->str.word);
+	free(btext->str);
 
 	return 0;
 }
