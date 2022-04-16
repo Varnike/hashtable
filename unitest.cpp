@@ -7,7 +7,7 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 	hashtable ht = {};
 	textBuff btext = {};
 
-	HashTableCtor(&ht, 20, hash);
+	HashTableCtor(&ht, 20000, hash);
 
 	read_from_file(&btext, "breaking_bad.txt");
 	printf("linecnt = %d\n", btext.linecnt);
@@ -52,10 +52,11 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 void test_search(hashtable *ht, textBuff *btext)
 {
 	for (int i = 0; i != 10; i++)
-	for (int it = 0; it != btext->linecnt; it++)
+	for (int it = 0; it != btext->linecnt; it++) {
 		HashTableFind(ht,
 			btext->str[i].strptr, 
 			btext->str[i].len);
+	}
 }
 
 void cnt_collisions(hashtable *ht, char *filename)
