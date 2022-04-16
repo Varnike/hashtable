@@ -20,9 +20,7 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 
 		RUN_PRINTF("%d\n", i);
 #if TEST_MODE == 1
-		ntest = HashTableFind(&ht,
-			       	&btext.str[i], 
-				0);
+		ntest = HashTableFind(&ht, &btext.str[i], 0);
 		if (ntest->val.data == DUMMY_NODE) {
 			HashTableInsert((LIST *)(ntest->val.key),
 			HST_DATA {
@@ -42,6 +40,8 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 	}
 	printf("END!\n");
 
+	search_test(&ht, &btext);
+
 	//get_words_cnt(&ht);
 	//cnt_collisions(&ht, hash_name);
 	
@@ -49,6 +49,16 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 	onegin_dtor(&btext);
 	
 	return ERRNUM;
+}
+
+void search_test(hashtable *ht, textBuff *btext)
+{
+	if (!ht || !btext)
+		return;
+	for (int i = 0; i != 10; i++)
+	for (int it = 0; it != btext->linecnt; it++) {
+		HashTableFind(ht, &btext->str[it], 0);
+	}
 }
 
 void cnt_collisions(hashtable *ht, char *filename)
