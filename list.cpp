@@ -501,7 +501,7 @@ static int get_free_node(LIST *list)
 	int free_node = list->FREE;
 	list->FREE = list->buff[list->FREE].next;
 	
-	printf("free node found : %d.\n", free_node);
+	//printf("free node found : %d.\n", free_node);
 	return free_node;
 }
 
@@ -550,7 +550,7 @@ int list_resize(LIST *list)
 	list->MAX_SIZE *= 2;
 
 	for (int list_it = list->size + 1; list_it != list->MAX_SIZE; list_it++) {
-		printf("f		%d\n", list_it);
+		//printf("f		%d\n", list_it);
 		list->buff[list_it].prev = -1;
 		list->buff[list_it].val  = HST_DATA{};
 	}	

@@ -16,7 +16,6 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 
 	for (int i = 0; i != btext.linecnt; i++) {
 
-		printf("%d\n", i);
 #if TEST_MODE == 1
 		ntest = HashTableFind(&ht,
 			       	btext.str[i].strptr, 
@@ -41,11 +40,22 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 
 	//get_words_cnt(&ht);
 	//cnt_collisions(&ht, hash_name);
+	test_search(&ht, &btext);
 
 	HashTableDtor(&ht);
 	onegin_dtor(&btext);
 
 	return ERRNUM;
+}
+
+
+void test_search(hashtable *ht, textBuff *btext)
+{
+	for (int i = 0; i != 10; i++)
+	for (int it = 0; it != btext->linecnt; it++)
+		HashTableFind(ht,
+			btext->str[i].strptr, 
+			btext->str[i].len);
 }
 
 void cnt_collisions(hashtable *ht, char *filename)

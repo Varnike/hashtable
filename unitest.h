@@ -13,6 +13,7 @@ uint32_t asum_hash(const char *str, size_t len);
 
 int unitest(char *hash_name, 
 		uint32_t (*hash)(const char *str, size_t len));
+void test_search(hashtable *ht, textBuff *btext);
 void cnt_collisions(hashtable *ht, char *filename);
 void get_words_cnt(hashtable *ht);
 

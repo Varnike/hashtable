@@ -75,6 +75,7 @@ int onegin_dtor(textBuff *btext) {
 
 	free(btext->buff);
 	free(btext->str);
+	return 0;
 }
 
 #undef $
