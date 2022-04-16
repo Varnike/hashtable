@@ -7,7 +7,7 @@ int unitest(char *hash_name, uint32_t (*hash)(const char *str, size_t len))
 	hashtable ht = {};
 	textBuff btext = {};
 
-	HashTableCtor(&ht, 20, hash);
+	HashTableCtor(&ht, 20000, hash);
 
 	read_from_file(&btext, "breaking_bad.txt");
 	//read_from_file(&btext, "text_in");
@@ -70,13 +70,14 @@ void get_words_cnt(hashtable *ht)
 	_NODE *ntest = NULL;
 	
 	__m256i find = _mm256_setzero_si256();
-	while (scanf("%s%n", (char*)&find, &len) && 
-			*(char*)&find != '!') {
+	
+	while (scanf("%s%n", (char*)&find, &len) && len != 9) {
 		if (len == 1) 			// TODO ?
 			break;
 		ntest = HashTableFind(ht, &find, len - 1);
 		printf("~[%s] is %d\n", (char *) &find, 
 				ntest->val.data);
+		find = _mm256_setzero_si256();
 	}
 }
 

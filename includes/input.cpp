@@ -54,7 +54,6 @@ $
 				curr_ptr++;
 
 			curr_ptr = i + 1;
-
 			STR[++curr_line] = _mm256_setzero_si256();
 
 			mm_id = 0;

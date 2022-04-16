@@ -15,7 +15,6 @@
 #include "error.h"
 #include "config.h"
 
-//#define LIST_DEBUG
 
 #define $ printf("\t\t\t---ON LINE %d IN FUNCTION %s---\n", __LINE__, __func__);
 
@@ -32,7 +31,7 @@
 		ListCheck(list);			\
 		if (ERRNUM) {				\
 			perror(errmsg(ERRNUM));		\
-			ListDump(list);			\
+			/*ListDump(list);*/		\
 			assert(!"HUGE ERR!");		\
 		}					\
 	}

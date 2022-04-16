@@ -2,7 +2,8 @@
 #define CONFIG_H_
 
 #define USE_PRINTF_ON_RUN	0
-
+#define EXTREME_NO_CHECKS
+//#define LIST_DEBUG
 
 
 
